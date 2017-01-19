@@ -6,7 +6,7 @@ This program can get Email addresses from a local file.
 
 You can clone this repository with the command below
 ```
-git@github.com:lulivi/LEX_Email_Catcher.git
+git clone git@github.com:lulivi/LEX_Email_Catcher.git
 ```
 or just click on the "Download as zip" button.
 
