@@ -1,4 +1,4 @@
-# Html Email catcher
+# LEX Email Catcher
 
 This program can get Email addresses from a local file.
 
