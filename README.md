@@ -1,6 +1,6 @@
-# Html email catcher
+# Html Email catcher
 
-This program can get emails from a local file.
+This program can get Email addresses from a local file.
 
 ### Instalation
 
