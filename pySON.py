@@ -11,7 +11,7 @@
 #   Copyright 2017, Luis Liñán (luislivilla@gmail.com)
 #
 # REPOSITORY :
-#   https://github.com/lulivi/LEX_html_email_catcher
+#   git@github.com:lulivi/LEX_Email_Catcher.git
 #
 # LICENSE :
 #   This program is free software: you can redistribute it and/or
