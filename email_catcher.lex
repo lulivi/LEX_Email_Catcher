@@ -64,6 +64,11 @@ void AddItem(char * new_element);
 void RemovePrefix(char * prefix_mail, char delim);
 
 /*
+ * Replaces one substring for other in a given string
+ */
+void ReplaceStr(char  *str, char const *orig, char const *rep);
+
+/*
  * Displays all elements from the array "mails"
  */
 void DisplayMails();
@@ -104,6 +109,7 @@ domain        {dom_hyph_dot}|{dom_ip}
 /* address */
 
 address       {local}"@"{domain}
+address_at    {local}" at "{domain}
 
 /* elements */
 
@@ -128,13 +134,12 @@ tag           (.*"<"({tag1}|{tag2}|{tag3}|{tag4}|{tag5}|{tag6}|{tag7}|{tag8}|{ta
 /* ********************************* */
 /* ********** Productions ********** */
 /* ********************************* */
-/*
-*/
 %}
 
 {tag}                    {;}
 ^("mail="){address}      {RemovePrefix(yytext, '='); AddItem(yytext);}
 {address}                {AddItem(yytext);}
+{address_at}             {ReplaceStr(yytext, " at ", "@"); AddItem(yytext);}
 .|\n                     {;}
 
 %%
@@ -154,7 +159,7 @@ int main (int argc, char *argv[]) {
   int json_choice = 0;
   char json_string[10];
 
-  printf("Choose the input stream [ stdin(0) / path_to_file / ]: ");
+  printf("Choose the input stream [ stdin(0) / path_to_file ]: ");
   scanf("%s", &input);
   if(IsNumeric(input)) strcpy(input, "stdin");
 
@@ -193,12 +198,17 @@ int main (int argc, char *argv[]) {
   if(!strcmp(output, "stdout"))
     fprintf(yyout, "\n\n");
 
-  if(json_choice){
-    AddItem(output);
-    WriteJSON();
+  if(next > 0){
+
+    if(json_choice){
+      AddItem(output);
+      WriteJSON();
+    }
+    else DisplayMails();
   }
-  else
-    DisplayMails();
+  else{
+    printf("ERROR 404: EMAILS NOT FOUND.\n");
+  }
 
   FreeMails();
 
@@ -237,6 +247,20 @@ void RemovePrefix(char * prefix_mail, char delim){
 
 // ====================================
 
+void ReplaceStr(char  *str, char const *orig, char const *rep){
+  static char buffer[4096];
+  char *p;
+
+  if((p = strstr(str, orig))){
+      strncpy(buffer, str, p-str); // Copy characters from 'str' start to 'orig' st$
+      buffer[p-str] = '\0';
+      sprintf(buffer+(p-str), "%s%s", rep, p+strlen(orig));
+      strcpy(str, buffer);
+  }
+}
+
+// ====================================
+
 void DisplayMails(){
   time_t rawtime;
   struct tm * timeinfo;
@@ -249,6 +273,7 @@ void DisplayMails(){
 }
 
 // ====================================
+
 void WriteJSON(){
   Py_SetProgramName("pySON");
   Py_Initialize();
