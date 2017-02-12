@@ -22,4 +22,4 @@ Contact at:
  - [telegram](http://t.me/luvo0)
 
 ### License
-Checkout the [license](https://github.com/lulivi/LEX_html_email_catcher/blob/master/LICENSE).
+Checkout the [license](https://github.com/lulivi/LEX_Email_Catcher/blob/master/LICENSE).
